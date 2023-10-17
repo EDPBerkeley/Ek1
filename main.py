@@ -14,10 +14,10 @@ uri = os.getenv("MONGODB_URI")
 client = MongoClient(uri, server_api=ServerApi('1'))
 
 # Send a ping to confirm a successful connection
-x = 1
+x = "It didn't work :("
 try:
     client.admin.command('ping')
-    x = 1
+    x = "It worked :)"
     print("Pinged your deployment. You successfully connected to MongoDB!")
 except Exception as e:
     print(e)
@@ -25,7 +25,9 @@ except Exception as e:
 
 @app.get("/")
 async def root():
-    return {"message": "Hello new world, all the boys and girls, I got some true stories to tell", x}
+
+
+    return {"message": x}
 
 
 @app.get("/hello/{name}")
