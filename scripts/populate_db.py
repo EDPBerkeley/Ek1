@@ -1,15 +1,19 @@
+import os
 import random
+import mongoengine as db
 from datetime import datetime, timedelta
+
+from mongoengine import connect
+
 from app.main import client
 
 from app.models.store import Store
 
 
 def create_stores():
-    db = client["app"]
-    collection = db["users"]
+    connect("app", host=os.getenv("MONGODB_URI"))
 
-    collection.delete_many({})
+    Store.objects().delete()
 
     # Define the range of the last 5 years (in days)
     start_date = datetime.now() - timedelta(days=365 * 5)
@@ -25,8 +29,8 @@ def create_stores():
             store.save()
             print(f"store '{store.id}' saved to db")
 
-        except:
-            print(f"store '{store.id}' could not be saved to db")
+        except Exception as e:
+            print(e)
 
 
 create_stores()
