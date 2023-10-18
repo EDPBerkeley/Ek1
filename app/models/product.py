@@ -2,9 +2,10 @@ from mongoengine import *
 
 
 class Product(Document):
+    name = StringField()
     description = StringField()
     price = DecimalField()
     category = IntField()
     sku = StringField()
-    inventory = IntField()
-    created = DateTimeField()
+    quantity = IntField()
+    date_created = DateTimeField()

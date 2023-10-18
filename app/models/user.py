@@ -7,10 +7,9 @@ from app.models.store import Store
 class User(Document):
     first_name = StringField()
     last_name = StringField()
-    age = StringField()
-    location = StringField()
+    age = IntField()
     bio = StringField()
-    store = ListField(ReferenceField(Store))
+    stores = ListField(ReferenceField(Store))
     date_created = DateTimeField()
     cart = ListField(ReferenceField(Product))
     previously_bought = ListField(ReferenceField(Product))

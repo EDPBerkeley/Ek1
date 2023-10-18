@@ -21,8 +21,8 @@ class PaymentMethodEnums(Enum):
 
 
 class PaymentMethods(Document):
-    method = StringField(choices=
-    [
+
+    payment_methods = [
         "Visa",
         "Mastercard",
         "Discover",
@@ -31,4 +31,4 @@ class PaymentMethods(Document):
         "Google Pay",
         "Android Pay"
     ]
-    )
+

@@ -7,9 +7,9 @@ from app.models.user import User
 class Transaction(Document):
     buyer = ReferenceField(User)
     seller = ReferenceField(User)
-    price = IntField()
+    price = DecimalField()
     product = ReferenceField(Product)
-    date_time = DateTimeField()
+    date_created = DateTimeField()
     quantity = IntField()
 
 

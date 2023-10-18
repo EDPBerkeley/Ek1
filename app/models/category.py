@@ -5,4 +5,3 @@ class Category():
         "OFFICE & SCHOOL SUPPLIES"
     ]
 
-    CATEGORIES = {i: categories[i] for i in range(len(categories))}
