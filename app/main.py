@@ -7,6 +7,10 @@ app = FastAPI()
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 
+from app.routes import store_routes
+
+from app.utils.db_utils import DBUtils
+
 global client
 global x1
 
@@ -18,9 +22,14 @@ except:
 
 @app.get("/")
 async def root():
-    return {"message": x1}
+    return "Hello World"
 
 
 @app.get("/hello/{name}")
 async def say_hello(name: str):
     return {"message": f"Hello {name}"}
+
+
+app.include_router(store_routes.router, prefix="/store", tags=["store"])
+
+DBUtils.initiate_connection()
