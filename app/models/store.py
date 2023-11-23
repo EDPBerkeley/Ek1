@@ -6,6 +6,7 @@ from app.models.payments_methods import PaymentMethods
 
 class Store(Document):
     name = StringField()
+    owner_name = StringField()
     date_created = DateTimeField()
     description = StringField()
     opening_time = IntField()
@@ -14,5 +15,10 @@ class Store(Document):
     address = StringField()
     products = ListField(ReferenceField(Product))
     payment_methods = ListField(IntField())
+    website = StringField()
+    phone_number = StringField()
+    rating = DecimalField(precision=1)
+    distance = DecimalField(precision=1)
+    cost = IntField()
 
 
