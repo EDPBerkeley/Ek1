@@ -8,7 +8,8 @@ router = APIRouter()
 @router.get("/all")
 def get_all_stores():
     stores = Store.objects
-    stores_json = [store.to_json() for store in stores]
+    stores_list = [store.to_mongo().to_dict() for store in stores]
+    stores_json = json.dumps(stores_list, default=str)
     return stores_json
 
 @router.get("/get_stores")

@@ -68,13 +68,13 @@ def create_stores(delete=False, log=False):
     for _ in range(random.randint(1, 2)):
         products = create_products()
         store = Store(
-            name= "The " + fake.word() + " " + fake.word(),
+            name= "The " + fake.word().capitalize() + " " + fake.word().capitalize(),
             owner_name = fake.name(),
             date_created=TimeUtils.random_date_time(5),
             description=fake.paragraph(),
             opening_time=random.randint(0, 11),
             closing_time=random.randint(12, 23),
-            category=random.randint(0, len(Category.categories)),
+            category=random.randint(0, len(Category.categories) - 1),
             address=fake.address(),
             products=products,
             payment_methods=create_payment_methods(),
@@ -82,7 +82,7 @@ def create_stores(delete=False, log=False):
             phone_number=str(fake.numerify(text='###')) + '-' + str(fake.numerify(text='###')) + "-" + str(fake.numerify(text='####')),
             rating=format(round(random.uniform(0, 6), 1), ".1f"),
             distance=format(round(random.uniform(0, 6), 1), ".1f"),
-            cost=round(random.uniform(1, 5))
+            cost=round(random.uniform(1, 3))
 
         )
 
