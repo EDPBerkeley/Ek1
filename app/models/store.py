@@ -13,6 +13,7 @@ class Store(Document):
     closing_time = IntField()
     category = IntField()
     address = StringField()
+    location = PointField()
     products = ListField(ReferenceField(Product))
     payment_methods = ListField(IntField())
     website = StringField()
