@@ -2,9 +2,10 @@ from mongoengine import *
 
 from app.models.product import Product
 from app.models.payments_methods import PaymentMethods
+from models.location import Location
 
 
-class Store(Document):
+class Shop(Document):
     name = StringField()
     owner_name = StringField()
     date_created = DateTimeField()
@@ -12,8 +13,8 @@ class Store(Document):
     opening_time = IntField()
     closing_time = IntField()
     category = IntField()
+    location = ReferenceField(Location)
     address = StringField()
-    location = PointField()
     products = ListField(ReferenceField(Product))
     payment_methods = ListField(IntField())
     website = StringField()

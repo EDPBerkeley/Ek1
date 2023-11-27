@@ -6,6 +6,8 @@ from mongoengine import connect
 from app.models.product import Product
 from app.models.user import User
 
+from geopy.geocoders import Nominatim
+
 class DBUtils():
     @staticmethod
     def initiate_connection():
@@ -60,5 +62,21 @@ class DBUtils():
 
         final_latitude, final_longitude = float(str_latitude), float(str_longitude)
 
-        return final_latitude, final_longitude
+        return [final_latitude, final_longitude]
 
+    @staticmethod
+    def switch_longitude_latitude(coords):
+        return[coords[1], coords[0]]
+
+    @staticmethod
+    def generate_random_address_berkeley(coords=None):
+
+        geocoder = Nominatim(user_agent="EkBe")
+
+        if coords:
+            coords = (str(coords[0]), str(coords[1]))
+            return geocoder.reverse(coords)
+
+        coords = DBUtils.generate_random_coords_berkeley()
+        str_coords = [str(coords[0]), str(coords[1])]
+        return str(geocoder.reverse(str_coords))

@@ -4,18 +4,21 @@ import secrets
 import string
 from faker import Faker
 
-from mongoengine import connect
+from mongoengine import *
 
 from app.models.payments_methods import PaymentMethods
 from app.models.product import Product
 from app.models.category import Category
-from app.models.store import Store
+from app.models.shop import Shop
 from app.models.transaction import Transaction
 from app.models.user import User
 
 
 from app.utils.timeutils import TimeUtils
 from app.utils.db_utils import DBUtils as dbu
+from models.location import Location
+
+
 
 def create_products(delete=False, log=False):
     if delete:
@@ -56,10 +59,29 @@ def create_payment_methods():
     payment_methods = random.sample(sample_size, num_payment_methods)
     return payment_methods
 
+def create_location(delete=False, log=False):
+    if delete:
+        Location.objects().delete()
+
+    coords = dbu.generate_random_coords_berkeley()
+    address = dbu.generate_random_address_berkeley(coords)[0]
+
+    location = Location(
+        coordinates={'type': 'Point', 'coordinates': dbu.switch_longitude_latitude(coords)},
+        address=address
+    )
+    try:
+        location.validate()
+        location.save()
+    except Exception as e:
+        print(e)
+
+    return location
+
 
 def create_stores(delete=False, log=False):
     if delete:
-        Store.objects().delete()
+        Shop.objects().delete()
 
     fake = Faker()
 
@@ -67,7 +89,9 @@ def create_stores(delete=False, log=False):
 
     for _ in range(random.randint(1, 2)):
         products = create_products()
-        store = Store(
+        location = create_location()
+
+        store = Shop(
             name= "The " + fake.word().capitalize() + " " + fake.word().capitalize(),
             owner_name = fake.name(),
             date_created=TimeUtils.random_date_time(5),
@@ -75,7 +99,8 @@ def create_stores(delete=False, log=False):
             opening_time=random.randint(0, 11),
             closing_time=random.randint(12, 23),
             category=random.randint(0, len(Category.categories) - 1),
-            address=fake.address(),
+            location=location,
+            # address=str(location.address),
             products=products,
             payment_methods=create_payment_methods(),
             website="https://" + fake.word() + fake.word() + ".com",
@@ -151,3 +176,23 @@ def create_transaction(delete=False, log=False):
 dbu.initiate_connection()
 create_user()
 create_transaction(log=True)
+
+
+
+
+
+
+
+# Example usage
+# First, create and save a Location instance
+# dbu.initiate_connection()
+# def create():
+#
+#     location = Location(coordinates={'type': 'Point', 'coordinates': [-73.935242, 40.730610]})
+#     location.save()
+#     return location
+#
+# t = create()
+# # Now, create and save a Place instance that references the Location
+# store = Store(name="Central Park", location=t)
+# store.save()
