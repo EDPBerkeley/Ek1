@@ -1,6 +1,6 @@
 from mongoengine import *
 class Location(Document):
-    coordinates = PointField()
+    geometry = PointField()
     address = StringField()
 
     meta = {

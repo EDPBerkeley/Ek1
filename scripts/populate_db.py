@@ -67,7 +67,7 @@ def create_location(delete=False, log=False):
     address = dbu.generate_random_address_berkeley(coords)[0]
 
     location = Location(
-        coordinates={'type': 'Point', 'coordinates': dbu.switch_longitude_latitude(coords)},
+        geometry={'type': 'Point', 'coordinates': dbu.switch_longitude_latitude(coords)},
         address=address
     )
     try:
