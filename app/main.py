@@ -34,4 +34,4 @@ app.include_router(store_routes.router, prefix="/store", tags=["store"])
 
 
 DBUtils.initiate_connection()
-store_routes.get_stores_within_boundary(( -122.27300, 37.87150), (-122.24174, 37.90564))
+# store_routes.get_stores_within_boundary(( -122.27300, 37.87150), (-122.24174, 37.90564))

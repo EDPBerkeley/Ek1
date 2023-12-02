@@ -13,7 +13,7 @@ class Shop(Document):
     opening_time = IntField()
     closing_time = IntField()
     category = IntField()
-    location = ReferenceField(Location)
+    location = EmbeddedDocumentField(Location)
     address = StringField()
     products = ListField(ReferenceField(Product))
     payment_methods = ListField(IntField())
