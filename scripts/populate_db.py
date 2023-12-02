@@ -20,6 +20,9 @@ from models.location import Location
 
 
 
+
+
+
 def create_products(delete=False, log=False):
     if delete:
         Product.objects().delete()
@@ -28,13 +31,18 @@ def create_products(delete=False, log=False):
 
     products = []
 
+    shop_category = random.randint(0, len(Category.SHOP_CATEGORIES) - 1)
+    shop_category_str = Category.SHOP_CATEGORIES[shop_category]
+
+
     for _ in range(20):
+
 
         product = Product(
             name=fake.word(),
             description=fake.paragraph(nb_sentences=30),
             price=round(random.uniform(0, 100), 2),
-            category=random.randint(0, len(Category.categories) - 1),
+            category=random.randint(0, len(Category.PRODUCT_CATEGORIES[shop_category_str]) - 1),
             sku=''.join(secrets.choice(string.ascii_letters + string.digits) for _ in range(8)),
             quantity=random.randint(0, 199),
             date_created=TimeUtils.random_date_time(5)
@@ -50,7 +58,7 @@ def create_products(delete=False, log=False):
         except Exception as e:
             print(e)
 
-    return products
+    return products, shop_category
 
 
 def create_payment_methods():
@@ -88,7 +96,7 @@ def create_stores(delete=False, log=False):
     stores = []
 
     for _ in range(random.randint(1, 2)):
-        products = create_products()
+        products, shop_category = create_products()
         location = create_location()
 
         store = Shop(
@@ -98,7 +106,7 @@ def create_stores(delete=False, log=False):
             description=fake.paragraph(),
             opening_time=random.randint(0, 11),
             closing_time=random.randint(12, 23),
-            category=random.randint(0, len(Category.categories) - 1),
+            category=shop_category,
             location=location,
             # address=str(location.address),
             products=products,

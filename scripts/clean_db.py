@@ -12,7 +12,6 @@ def clean_db():
     Shop.objects().delete()
     Transaction.objects().delete()
     User.objects().delete()
-    Location.objects().delete()
 
 
 dbu.initiate_connection()
