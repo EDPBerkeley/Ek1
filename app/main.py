@@ -4,7 +4,7 @@ from fastapi import FastAPI
 
 import uvicorn
 
-from routes import product_routes
+from routes import product_routes, product_data_routes, store_overview_data_routes
 
 app = FastAPI()
 
@@ -36,6 +36,8 @@ async def say_hello(name: str):
 
 app.include_router(shop_routes.router, prefix="/store", tags=["store"])
 app.include_router(product_routes.router, prefix="/product", tags=["product"])
+app.include_router(product_data_routes.router, prefix="/product_data", tags=["product_data"])
+app.include_router(store_overview_data_routes.router, prefix="/store_overview_data", tags=["store_overview_data"])
 
 
 DBUtils.initiate_connection()
