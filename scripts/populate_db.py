@@ -39,7 +39,7 @@ def create_products(delete=False, log=False):
 
 
         product = Product(
-            name=fake.word(),
+            name=fake.word().capitalize(),
             description=fake.paragraph(nb_sentences=30),
             price=round(random.uniform(0, 100), 2),
             category=random.randint(0, len(Category.PRODUCT_CATEGORIES[shop_category_str]) - 1),
@@ -100,7 +100,7 @@ def create_stores(delete=False, log=False):
         location = create_location()
 
         store = Shop(
-            name= "The " + fake.word().capitalize() + " " + fake.word().capitalize(),
+            name= "The" + " " + fake.word().capitalize() + " " + "Store",
             owner_name = fake.name(),
             date_created=TimeUtils.random_date_time(5),
             description=fake.paragraph(),
@@ -170,7 +170,7 @@ def create_transaction(delete=False, log=False):
             price=round(random.uniform(0, 100), 2),
             product=dbu.get_random_product(),
             date_created=TimeUtils.random_date_time(5),
-            quantity=random.randint(0, 10)
+            quantity=random.randint(1, 10)
         )
 
         try:
