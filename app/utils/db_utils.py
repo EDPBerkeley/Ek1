@@ -8,6 +8,9 @@ from app.models.user import User
 
 from geopy.geocoders import Nominatim
 
+from models.shop import Shop
+
+
 class DBUtils():
     @staticmethod
     def initiate_connection():
@@ -28,6 +31,18 @@ class DBUtils():
         random_user_list = User.objects.filter().skip(random_index).limit(1)
 
         return random_user_list[0]
+
+    @staticmethod
+    def get_random_shop():
+        total_shops = Shop.objects.count()
+
+        # Generate 5 unique random indices
+        random_indices = random.sample(range(total_shops), 1)
+
+        # Fetch the documents at the random indices
+        random_documents = Shop.objects.filter().skip(random_indices[0]).limit(1)
+
+        return list(random_documents)[0]
 
     @staticmethod
     def get_random_product():

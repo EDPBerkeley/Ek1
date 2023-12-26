@@ -1,6 +1,9 @@
 from fastapi import APIRouter, Request
+from fastapi.openapi.models import Response
 
 from app.models.shop import Shop
+from utils.custom_encoder import custom_serializer
+from utils.db_utils import DBUtils
 import json
 
 from models.location import Location
@@ -18,6 +21,11 @@ def get_all_stores():
 def get_n_stores(n):
     return Shop.objects()[:n]
 
+@router.get("/random_shop")
+def get_random_shop():
+    shop = DBUtils.get_random_shop()
+    shop_json = json.dumps(shop, cls=custom_serializer)
+    return Response(content=shop_json, media_type="application/json")
 
 @router.get("/get_stores/boundary")
 def get_stores_within_boundary(
