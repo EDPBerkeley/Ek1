@@ -18,13 +18,16 @@ def overview_data(
     transactions = Transaction.objects(shop=shop_id)
 
     most_transacted_product = DBUtils.calculate_most_bought_product(shop_id=shop_id, transactions=transactions)
-    # max_transacted_product_json = json.dumps(most_transacted_product, cls=custom_serializer)
 
     most_revenue_product = DBUtils.calculate_total_revenue_for_product(shop_id=shop_id, transactions=transactions)
 
+    total_revenue = DBUtils.total_revenue(transactions=transactions)
+
+
     stats = {
         "most_transacted_product" : most_transacted_product,
-        "most_revenue_product" : most_revenue_product
+        "most_revenue_product" : most_revenue_product,
+        "total_revenue" : total_revenue
     }
 
     stats_json = json.dumps(stats, cls=custom_serializer)

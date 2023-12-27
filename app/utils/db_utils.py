@@ -136,6 +136,17 @@ class DBUtils():
 
         return max_product_revenue
 
+    @staticmethod
+    def total_revenue(transactions=None):
+
+        total_revenue = 0
+
+        for transaction in transactions:
+            total_revenue += (transaction.product.price * transaction.quantity)
+
+        return total_revenue
+
+
 
     @staticmethod
     def get_product(product_id):
