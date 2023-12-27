@@ -2,6 +2,7 @@ from mongoengine import *
 
 from app.models.product import Product
 from app.models.user import User
+from models.shop import Shop
 
 
 class Transaction(Document):
@@ -11,5 +12,6 @@ class Transaction(Document):
     product = ReferenceField(Product)
     date_created = DateTimeField()
     quantity = IntField()
+    shop = ReferenceField(Shop)
 
 

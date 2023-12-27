@@ -170,7 +170,8 @@ def create_transaction(delete=False, log=False):
             price=round(random.uniform(0, 100), 2),
             product=dbu.get_random_product(),
             date_created=TimeUtils.random_date_time(5),
-            quantity=random.randint(1, 10)
+            quantity=random.randint(1, 10),
+            shop=dbu.get_random_shop()
         )
 
         try:

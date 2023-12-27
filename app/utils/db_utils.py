@@ -1,5 +1,6 @@
 import os
 import random
+from collections import Counter
 
 from mongoengine import connect
 
@@ -9,6 +10,7 @@ from app.models.user import User
 from geopy.geocoders import Nominatim
 
 from models.shop import Shop
+from models.transaction import Transaction
 
 
 class DBUtils():
@@ -95,3 +97,19 @@ class DBUtils():
         coords = DBUtils.generate_random_coords_berkeley()
         str_coords = [str(coords[0]), str(coords[1])]
         return str(geocoder.reverse(str_coords))
+
+    @staticmethod
+    def calculate_conversion_rate():
+        return random.randint(50, 100)
+
+    @staticmethod
+    def calculate_most_bought_product(shop_id):
+        transactions = Transaction.objects(shop=shop_id)
+        product_counts = Counter(transactions, key = lambda transaction: transaction.product.id)
+        max_product_id = max(product_counts, key=lambda product: product_counts[product])
+        max_product = DBUtils.get_product(max_product_id)
+        return max_product
+
+    @staticmethod
+    def get_product(product_id):
+        return Product.objects(id=product_id)

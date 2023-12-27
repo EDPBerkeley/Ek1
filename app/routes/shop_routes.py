@@ -1,5 +1,4 @@
-from fastapi import APIRouter, Request
-from fastapi.openapi.models import Response
+from fastapi import APIRouter, Request, Response
 
 from app.models.shop import Shop
 from utils.custom_encoder import custom_serializer
@@ -23,7 +22,8 @@ def get_n_stores(n):
 
 @router.get("/random_shop")
 def get_random_shop():
-    shop = DBUtils.get_random_shop()
+    shop = DBUtils.get_random_shop().to_mongo()
+    print(shop)
     shop_json = json.dumps(shop, cls=custom_serializer)
     return Response(content=shop_json, media_type="application/json")
 
