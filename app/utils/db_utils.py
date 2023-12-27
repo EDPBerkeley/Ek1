@@ -1,6 +1,8 @@
 import os
 import random
 from collections import Counter
+from collections import defaultdict
+
 
 from mongoengine import connect
 
@@ -103,12 +105,37 @@ class DBUtils():
         return random.randint(50, 100)
 
     @staticmethod
-    def calculate_most_bought_product(shop_id):
-        transactions = Transaction.objects(shop=shop_id)
-        product_counts = Counter(transactions, key = lambda transaction: transaction.product.id)
-        max_product_id = max(product_counts, key=lambda product: product_counts[product])
-        max_product = DBUtils.get_product(max_product_id)
+    def calculate_most_bought_product(shop_id, transactions=None):
+
+        if transactions is None:
+            transactions = Transaction.objects(shop=shop_id)
+
+
+        product_id_counts = defaultdict(lambda: 0)
+        for transaction in transactions:
+            product_id_counts[transaction.product.id] += transaction.quantity
+
+        max_product_id = max(product_id_counts, key=lambda product: product_id_counts[product])
+        max_product = DBUtils.get_product(max_product_id)[0].to_mongo()
         return max_product
+
+    @staticmethod
+    def calculate_total_revenue_for_product(shop_id, transactions=None):
+
+        if transactions is None:
+            transactions = Transaction.objects(shop=shop_id)
+
+        product_ids = [transaction.product.id for transaction in transactions]
+        product_id_revenues = defaultdict(lambda: 0)
+
+        for transaction in transactions:
+            product_id_revenues[transaction.product.id] += (transaction.quantity * transaction.product.price)
+
+        max_product_revenue_id = max(product_id_revenues, key=lambda product: product_id_revenues[product])
+        max_product_revenue = DBUtils.get_product(max_product_revenue_id)[0].to_mongo()
+
+        return max_product_revenue
+
 
     @staticmethod
     def get_product(product_id):

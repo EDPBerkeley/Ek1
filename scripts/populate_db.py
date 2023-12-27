@@ -80,7 +80,6 @@ def create_location(delete=False, log=False):
     )
     try:
         location.validate()
-        location.save()
     except Exception as e:
         print(e)
 
@@ -163,7 +162,7 @@ def create_transaction(delete=False, log=False):
     if delete:
         Transaction.objects().delete()
 
-    for _ in range(50):
+    for _ in range(400):
         transaction = Transaction(
             buyer=dbu.get_random_user(),
             seller=dbu.get_random_user(),
@@ -184,7 +183,7 @@ def create_transaction(delete=False, log=False):
 
 dbu.initiate_connection()
 create_user()
-create_transaction(log=True)
+create_transaction(log=False)
 
 
 
