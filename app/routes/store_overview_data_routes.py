@@ -1,3 +1,5 @@
+import random
+
 from fastapi import APIRouter, Request, Response
 
 from models.transaction import Transaction
@@ -24,11 +26,13 @@ def overview_data(
     total_revenue = DBUtils.total_revenue(transactions=transactions)
 
 
-    stats = {
-        "most_transacted_product" : most_transacted_product,
-        "most_revenue_product" : most_revenue_product,
-        "total_revenue" : total_revenue
-    }
+    stats = [
+        {"stat_name": "Total Revenue (Past 30 Days)", "stat": "$" + str(total_revenue)},
+        {"stat_name": "Conversion Rate", "stat": str(random.randint(50, 100)) + "%"},
+        {"stat_name": "Customer Satisfaction", "stat": str(random.randint(50, 100)) + "%"},
+        {"stat_name": "Most Transacted Product", "stat" : most_transacted_product["name"]},
+        {"stat_name": "Highest Earning Product", "stat" : most_revenue_product["name"]},
+    ]
 
     stats_json = json.dumps(stats, cls=custom_serializer)
 
