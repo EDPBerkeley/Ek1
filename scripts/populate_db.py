@@ -1,7 +1,13 @@
+import json
 import os
 import random
 import secrets
 import string
+import os
+from io import BytesIO
+
+import requests
+from openai import OpenAI
 from faker import Faker
 
 from mongoengine import *
@@ -17,48 +23,100 @@ from app.models.user import User
 from app.utils.timeutils import TimeUtils
 from app.utils.db_utils import DBUtils as dbu
 from models.location import Location
+from models.one_image import OneImage
 
 
+def load_data():
+    global data
+    with open('../assets/data.json', 'r') as json_file:
+        data = json.load(json_file)
 
 
+def create_images(product_name):
+
+    directory = f"/Users/erchispatwardhan/PycharmProjects/fastApiProject/assets/{product_name}"
+    os.makedirs(directory, exist_ok=True)
+    images = []
+
+    for j in range(2):
+        prompt = f"I need a prompt that is less than 1000 in length to give dalle - I want to generate an image of {product_name} that is only a simple near-white background as if it were taken in a photography studio. I want this image to be used in a advertising catalogue, and I want the whole object in frame. Please respond with just the prompt"
+
+        text_response = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "user", "content": prompt},
+            ]
+        )
+
+        text_prompt = text_response.choices[0].message.content
+
+        try:
+            image_response = client.images.generate(
+                model="dall-e-2",
+                prompt=text_prompt,
+                size="512x512",
+                quality="standard",
+                n=1,
+            )
+        except Exception as e:
+            print(text_prompt)
+
+        image_url = image_response.data[0].url
+
+        try:
+            response = requests.get(image_url)
+            if response.status_code == 200:
+                # Save Image
+                image_path = f"{directory}/{product_name}_{j}.jpg"
+                with open(image_path, 'wb') as f:
+                    f.write(response.content)
+
+                images.append(
+                    OneImage(
+                        element=BytesIO(response.content),
+                        url=image_url
+                    )
+                )
+
+        except requests.RequestException as e:
+            print(f"Error downloading {image_url}: {e}")
+
+    return images
 
 
-def create_products(delete=False, log=False):
+def create_products(shop_num, delete=False, log=True):
     if delete:
         Product.objects().delete()
 
-    fake = Faker()
-
     products = []
 
-    shop_category = random.randint(0, len(Category.SHOP_CATEGORIES) - 1)
-    shop_category_str = Category.SHOP_CATEGORIES[shop_category]
+    for i, curr_product in enumerate(data[shop_num]["products"]):
 
 
-    for _ in range(20):
-
-
-        product = Product(
-            name=fake.word().capitalize(),
-            description=fake.paragraph(nb_sentences=30),
-            price=round(random.uniform(0, 100), 2),
-            category=random.randint(0, len(Category.PRODUCT_CATEGORIES[shop_category_str]) - 1),
-            sku=''.join(secrets.choice(string.ascii_letters + string.digits) for _ in range(8)),
-            quantity=random.randint(0, 199),
-            date_created=TimeUtils.random_date_time(5)
-        )
-
-        products.append(product)
 
         try:
+            product = Product(
+                name=curr_product["name"],
+                description=curr_product["description"],
+                price=round(random.uniform(0, 100), 2),
+                category=curr_product["category"],
+                sku=''.join(secrets.choice(string.ascii_letters + string.digits) for _ in range(8)),
+                quantity=random.randint(0, 199),
+                date_created=TimeUtils.random_date_time(5),
+                images=create_images(product_name=curr_product["name"])
+            )
+
+
+            products.append(product)
+
             product.save()
             if log:
-                print(f"Product {product.id} saved to db")
+                print(f"Product {curr_product['name']} with _id {product.id} saved to db")
 
         except Exception as e:
             print(e)
 
-    return products, shop_category
+    return products
 
 
 def create_payment_methods():
@@ -86,48 +144,47 @@ def create_location(delete=False, log=False):
     return location
 
 
-def create_stores(delete=False, log=False):
+def create_stores(user_num, delete=False, log=False):
     if delete:
         Shop.objects().delete()
 
     fake = Faker()
 
-    stores = []
+    shops = []
 
-    for _ in range(random.randint(1, 2)):
-        products, shop_category = create_products()
+    shop_num_left_bound = user_num * 2
+    for i, shop in enumerate(data[shop_num_left_bound:shop_num_left_bound + 2]):
+        products = create_products(shop_num=shop_num_left_bound + i)
         location = create_location()
 
-        store = Shop(
-            name= "The" + " " + fake.word().capitalize() + " " + "Store",
+        curr_shop = Shop(
+            name= shop["name"],
             owner_name = fake.name(),
             date_created=TimeUtils.random_date_time(5),
-            description=fake.paragraph(),
+            description=shop["description"],
             opening_time=random.randint(0, 11),
             closing_time=random.randint(12, 23),
-            category=shop_category,
+            category=shop["category"],
             location=location,
-            # address=str(location.address),
             products=products,
             payment_methods=create_payment_methods(),
-            website="https://" + fake.word() + fake.word() + ".com",
+            website=shop["website"],
             phone_number=str(fake.numerify(text='###')) + '-' + str(fake.numerify(text='###')) + "-" + str(fake.numerify(text='####')),
             rating=format(round(random.uniform(0, 6), 1), ".1f"),
             distance=format(round(random.uniform(0, 6), 1), ".1f"),
             cost=round(random.uniform(1, 3))
-
         )
 
-        stores.append(store)
+        shops.append(curr_shop)
 
         try:
-            store.save()
+            curr_shop.save()
             if log:
-                print(f"Store {store.id} was saved to db")
+                print(f"Shop {curr_shop.id} was saved to db")
         except Exception as e:
             print(e)
 
-    return stores
+    return shops
 
 
 def create_user(delete=False, log=False):
@@ -136,9 +193,9 @@ def create_user(delete=False, log=False):
 
     fake = Faker()
 
-    for _ in range(10):
+    for i in range(4, 10):
 
-        stores = create_stores()
+        stores = create_stores(user_num=i)
         user = User(
             first_name=fake.name(),
             last_name=fake.name(),
@@ -182,6 +239,8 @@ def create_transaction(delete=False, log=False):
 
 
 dbu.initiate_connection()
+client = OpenAI()
+load_data()
 create_user()
 create_transaction(log=False)
 

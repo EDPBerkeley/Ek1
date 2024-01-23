@@ -16,6 +16,7 @@ from models.transaction import Transaction
 
 
 class DBUtils():
+
     @staticmethod
     def initiate_connection():
         try:
@@ -151,3 +152,7 @@ class DBUtils():
     @staticmethod
     def get_product(product_id):
         return Product.objects(id=product_id)
+
+    @staticmethod
+    def get_product_by_name(name):
+        return Product.objects(name=name)

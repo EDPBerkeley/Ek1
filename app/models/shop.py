@@ -12,7 +12,7 @@ class Shop(Document):
     description = StringField()
     opening_time = IntField()
     closing_time = IntField()
-    category = IntField()
+    category = StringField()
     location = EmbeddedDocumentField(Location)
     address = StringField()
     products = ListField(ReferenceField(Product))

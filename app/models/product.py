@@ -6,16 +6,18 @@ from datetime import datetime
 from bson.objectid import ObjectId
 
 from models.mongo_model import MongoModel, OID
+from models.one_image import OneImage
 
 
 class Product(Document):
     name = StringField()
     description = StringField()
     price = DecimalField()
-    category = IntField()
+    category = StringField()
     sku = StringField()
     quantity = IntField()
     date_created = DateTimeField()
+    images = EmbeddedDocumentListField(OneImage)
 
 
 

@@ -379,15 +379,6 @@
             "date_created":"2023-10-13"
          },
          {
-            "name":"Intimate Massagers",
-            "category":"Sexual Wellness",
-            "description":"Explore a range of intimate massagers designed for personal comfort and relaxation, crafted with discretion and quality in mind.",
-            "price":440.07,
-            "sku":"SRHWIYYG",
-            "quantity":10,
-            "date_created":"2023-12-25"
-         },
-         {
             "name":"Bathroom Scale",
             "category":"Weight Management",
             "description":"Keep track of your fitness goals with this accurate and easy-to-use bathroom scale, a perfect tool for any health regimen.",
@@ -469,15 +460,6 @@
             "date_created":"2023-01-29"
          },
          {
-            "name":"Sex Toys",
-            "category":"Sexual Wellness",
-            "description":"Explore a variety of sex toys designed for pleasure and intimacy, with options to suit all preferences and comfort levels.",
-            "price":385.65,
-            "sku":"BJ7VR6PV",
-            "quantity":42,
-            "date_created":"2023-07-04"
-         },
-         {
             "name":"Pulse Oximeter",
             "category":"Health Monitors & Devices",
             "description":"Monitor your oxygen levels and pulse rate with ease using this compact and reliable pulse oximeter.",
@@ -512,15 +494,6 @@
             "sku":"XCJOYHSE",
             "quantity":85,
             "date_created":"2023-04-10"
-         },
-         {
-            "name":"Personal Lubricants",
-            "category":"Sexual Wellness",
-            "description":"Enhance comfort and pleasure with our personal lubricants, formulated for safety and sensitivity.",
-            "price":41.99,
-            "sku":"GGO8UNY6",
-            "quantity":1,
-            "date_created":"2023-10-17"
          }
       ]
    },
