@@ -1,3 +1,5 @@
+import base64
+
 from fastapi import APIRouter, Request, Response
 
 from fastapi import FastAPI
@@ -21,6 +23,15 @@ def get_products_for_store(store_id):
     # products_json = json_util.dumps(products_list, indent=2)
     # return products_json
 
-    k = [product.to_mongo() for product in Shop.objects(pk=store_id).first().products]
-    j = json.dumps(k, cls=custom_serializer)
+    # products = [product.to_mongo() for product in Shop.objects(pk=store_id).first().products]
+    products = []
+    for product in Shop.objects(pk=store_id).first().products:
+        resolved_product=product.to_mongo()
+        for i, image in enumerate(product["images"]):
+            binary_data = product["images"][i]["element"].read()
+            encoded_data = base64.b64encode(binary_data)
+            base64_string = encoded_data.decode('utf-8')
+            resolved_product["images"][i]["element"] = base64_string
+        products.append(resolved_product)
+    j = json.dumps(products, cls=custom_serializer)
     return Response(content=j, media_type="application/json")
