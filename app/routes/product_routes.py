@@ -27,7 +27,7 @@ def get_products_for_store(store_id):
     products = []
     for product in Shop.objects(pk=store_id).first().products:
         resolved_product=product.to_mongo()
-        for i, image in enumerate(product["images"]):
+        for i, image in enumerate(product["images"][:1]):
             binary_data = product["images"][i]["element"].read()
             encoded_data = base64.b64encode(binary_data)
             base64_string = encoded_data.decode('utf-8')

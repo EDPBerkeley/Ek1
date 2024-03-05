@@ -1,0 +1,202 @@
+[
+   {
+      "shop_category":"Electronics",
+      "product_subcategories":[
+         "Smartphones & Accessories",
+         "Computers & Laptops",
+         "Cameras & Photography",
+         "Televisions & Home Theater",
+         "Audio & Hi-Fi"
+      ]
+   },
+   {
+      "shop_category":"Fashion",
+      "product_subcategories":[
+         "Casual Wear",
+         "Formal Wear",
+         "Sportswear",
+         "Footwear",
+         "Accessories"
+      ]
+   },
+   {
+      "shop_category":"Home & Kitchen",
+      "product_subcategories":[
+         "Cookware & Bakeware",
+         "Kitchen Appliances",
+         "Dining & Tableware",
+         "Bedding & Linens",
+         "Home Décor"
+      ]
+   },
+   {
+      "shop_category":"Beauty & Personal Care",
+      "product_subcategories":[
+         "Skincare",
+         "Haircare",
+         "Makeup",
+         "Fragrances",
+         "Bath & Body"
+      ]
+   },
+   {
+      "shop_category":"Sports & Outdoors",
+      "product_subcategories":[
+         "Fitness & Exercise Equipment",
+         "Outdoor Recreation",
+         "Team Sports",
+         "Water Sports",
+         "Camping & Hiking"
+      ]
+   },
+   {
+      "shop_category":"Automotive",
+      "product_subcategories":[
+         "Car Accessories",
+         "Motorbike Accessories",
+         "Car Parts",
+         "Tires & Wheels",
+         "Oils & Fluids"
+      ]
+   },
+   {
+      "shop_category":"Books & Stationery",
+      "product_subcategories":[
+         "Fiction",
+         "Non-Fiction",
+         "Children's Books",
+         "Academic & Textbooks",
+         "Journals & Diaries"
+      ]
+   },
+   {
+      "shop_category":"Toys & Games",
+      "product_subcategories":[
+         "Educational Toys",
+         "Board Games & Puzzles",
+         "Action Figures & Collectibles",
+         "Dolls & Plush Toys",
+         "Outdoor Play"
+      ]
+   },
+   {
+      "shop_category":"Grocery & Gourmet Food",
+      "product_subcategories":[
+         "Fresh Produce",
+         "Bakery & Bread",
+         "Dairy & Eggs",
+         "Meat & Seafood",
+         "Pantry Staples"
+      ]
+   },
+   {
+      "shop_category":"Health & Wellness",
+      "product_subcategories":[
+         "Supplements & Vitamins",
+         "Personal Care",
+         "Fitness & Yoga Equipment",
+         "Health Monitors & Devices",
+         "Weight Management"
+      ]
+   },
+   {
+      "shop_category":"Pet Supplies",
+      "product_subcategories":[
+         "Dog Supplies",
+         "Cat Supplies",
+         "Fish & Aquarium",
+         "Small Animal Supplies",
+         "Bird Supplies"
+      ]
+   },
+   {
+      "shop_category":"Gardening & Outdoor Living",
+      "product_subcategories":[
+         "Plants & Seeds",
+         "Garden Tools",
+         "Outdoor Furniture",
+         "Grills & Outdoor Cooking",
+         "Pools & Water Fun"
+      ]
+   },
+   {
+      "shop_category":"Music & Entertainment",
+      "product_subcategories":[
+         "Musical Instruments",
+         "Recording & Studio Equipment",
+         "Streaming Services",
+         "Concert & Event Tickets",
+         "Movies & TV Shows"
+      ]
+   },
+   {
+      "shop_category":"Furniture & Home Decor",
+      "product_subcategories":[
+         "Sofas & Couches",
+         "Beds & Bedroom Furniture",
+         "Tables & Chairs",
+         "Storage & Organization",
+         "Lighting & Lamps"
+      ]
+   },
+   {
+      "shop_category":"Jewelry & Accessories",
+      "product_subcategories":[
+         "Necklaces & Pendants",
+         "Rings",
+         "Earrings",
+         "Bracelets & Bangles",
+         "Watches"
+      ]
+   },
+   {
+      "shop_category":"Office Supplies",
+      "product_subcategories":[
+         "Writing Instruments",
+         "Paper Products",
+         "Desk Accessories",
+         "Organizers & Planners",
+         "Printers & Scanners"
+      ]
+   },
+   {
+      "shop_category":"Travel & Luggage",
+      "product_subcategories":[
+         "Suitcases & Travel Bags",
+         "Backpacks",
+         "Travel Accessories",
+         "Travel Electronics",
+         "Camping & Hiking Gear"
+      ]
+   },
+   {
+      "shop_category":"Crafts & Hobbies",
+      "product_subcategories":[
+         "Painting & Drawing Supplies",
+         "Sewing & Fabric",
+         "Knitting & Crochet",
+         "Scrapbooking & Paper Crafts",
+         "Jewelry Making"
+      ]
+   },
+   {
+      "shop_category":"Baby Products",
+      "product_subcategories":[
+         "Baby Clothing & Accessories",
+         "Diapers & Wipes",
+         "Feeding & Nursing",
+         "Strollers & Car Seats",
+         "Nursery Furniture"
+      ]
+   },
+   {
+      "shop_category":"Art & Collectibles",
+      "product_subcategories":[
+         "Paintings",
+         "Sculptures",
+         "Prints & Posters",
+         "Antiques",
+         "Rare Books"
+      ]
+   }
+]
