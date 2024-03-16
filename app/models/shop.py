@@ -22,8 +22,6 @@ class Shop(Document):
     featured_products = ListField(ReferenceField(Product))
     sorted_products = DictField()
     product_categories = ListField(StringField)
-    for_you = ListField(ReferenceField(Product))
-    featured = ListField(ReferenceField(Product))
     payment_methods = ListField(IntField())
     website = StringField()
     phone_number = StringField()
