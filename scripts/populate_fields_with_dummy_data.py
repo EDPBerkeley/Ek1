@@ -34,7 +34,7 @@ def re_populate_shop(shop: Shop) -> dict:
     sorted_products = defaultdict(list)
 
     product_collection = Product._get_collection()
-
+    sorted_products["All Products"] = [prod["id"] for prod in shop["products"]]
     for product in shop["products"]:
         # product_object = Product.objects.get(id=product_object_id)
         all_product_categories.add(product.category)

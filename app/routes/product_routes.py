@@ -57,3 +57,21 @@ def get_general_product_field_for_shop(shop_id, product_field):
         products.append(resolved_product)
     j = json.dumps(products, cls=custom_serializer)
     return Response(content=j, media_type="application/json")
+
+@router.get("/sorted_products")
+def get_sorted_products(shop_id):
+    products = {}
+    for key, arr in Shop.objects(pk=shop_id).first()["sorted_products"].items():
+        curr_products_arr = []
+        for product in arr:
+            resolved_product=Product.objects.get(id=product).to_mongo()
+            product=Product.objects.get(id=product)
+            for i, image in enumerate(product["images"][:1]):
+                binary_data = product["images"][i]["element"].read()
+                encoded_data = base64.b64encode(binary_data)
+                base64_string = encoded_data.decode('utf-8')
+                resolved_product["images"][i]["element"] = base64_string
+            curr_products_arr.append(resolved_product)
+        products[key] = curr_products_arr
+    j = json.dumps(products, cls=custom_serializer)
+    return Response(content=j, media_type="application/json")
