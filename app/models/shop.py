@@ -2,6 +2,7 @@ from mongoengine import *
 
 from app.models.product import Product
 from app.models.payments_methods import PaymentMethods
+from models.category import Category
 from models.location import Location
 
 
@@ -17,8 +18,10 @@ class Shop(Document):
     address = StringField()
     image = ListField(ReferenceField(Product))
     products = ListField(ReferenceField(Product))
-    for_you = ListField(ReferenceField(Product))
-    featured = ListField(ReferenceField(Product))
+    for_you_products = ListField(ReferenceField(Product))
+    featured_products = ListField(ReferenceField(Product))
+    sorted_products = DictField()
+    product_categories = ListField(StringField())
     payment_methods = ListField(IntField())
     website = StringField()
     phone_number = StringField()
