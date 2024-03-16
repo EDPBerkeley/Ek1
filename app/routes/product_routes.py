@@ -35,3 +35,25 @@ def get_products_for_store(store_id):
         products.append(resolved_product)
     j = json.dumps(products, cls=custom_serializer)
     return Response(content=j, media_type="application/json")
+
+@router.get("/shop_field")
+def get_general_product_field_for_shop(shop_id, product_field):
+
+
+    # return Response(content=json_util.dumps([product.to_mongo().to_dict() for product in Shop.objects(pk=store_id)[0].products]), media_type="application/json")
+    # print(products_list)
+    # products_json = json_util.dumps(products_list, indent=2)
+    # return products_json
+
+    # products = [product.to_mongo() for product in Shop.objects(pk=store_id).first().products]
+    products = []
+    for product in Shop.objects(pk=shop_id).first()[product_field]:
+        resolved_product=product.to_mongo()
+        for i, image in enumerate(product["images"][:1]):
+            binary_data = product["images"][i]["element"].read()
+            encoded_data = base64.b64encode(binary_data)
+            base64_string = encoded_data.decode('utf-8')
+            resolved_product["images"][i]["element"] = base64_string
+        products.append(resolved_product)
+    j = json.dumps(products, cls=custom_serializer)
+    return Response(content=j, media_type="application/json")
