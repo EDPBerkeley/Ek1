@@ -1,8 +1,6 @@
 from mongoengine import *
 
 from app.models.product import Product
-from app.models.payments_methods import PaymentMethods
-from models.category import Category
 from models.location import Location
 
 
@@ -28,5 +26,4 @@ class Shop(Document):
     rating = DecimalField(precision=1)
     distance = DecimalField(precision=1)
     cost = IntField()
-
 
