@@ -20,7 +20,7 @@ class Shop(Document):
     products = ListField(ReferenceField(Product))
     for_you_products = ListField(ReferenceField(Product))
     featured_products = ListField(ReferenceField(Product))
-    sorted_products = DictField()
+    sorted_products = DictField(value_field=ListField(ReferenceField(Product)))
     product_categories = ListField(StringField())
     payment_methods = ListField(IntField())
     website = StringField()

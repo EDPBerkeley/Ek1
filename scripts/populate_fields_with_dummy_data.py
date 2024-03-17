@@ -1,5 +1,6 @@
 import copy
 import random
+import base64
 from collections import defaultdict
 
 from app.utils.db_utils import DBUtils as dbu
@@ -34,15 +35,16 @@ def re_populate_shop(shop: Shop) -> dict:
     sorted_products = defaultdict(list)
 
     product_collection = Product._get_collection()
-    sorted_products["All Products"] = [prod["id"] for prod in shop["products"]]
-    for product in shop["products"]:
+    sorted_products["All Products"] = copy.deepcopy(shop["products"])
+    for product in copy.deepcopy(shop["products"]):
         # product_object = Product.objects.get(id=product_object_id)
         all_product_categories.add(product.category)
-        sorted_products[product.category].append(product["id"])
+        sorted_products[product.category].append(product)
+
 
     # Add the sorted_products arr
     shop.sorted_products = dict(sorted_products)
-    shop.product_categories = list(all_product_categories)
+    shop.product_categories = ["All Products"] + list(all_product_categories)
 
     return shop
 
