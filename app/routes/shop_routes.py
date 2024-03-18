@@ -2,6 +2,7 @@ import base64
 import random
 
 from fastapi import APIRouter, Request, Response
+from app.models.custom_serializer import CustomSerializer
 
 from app.models.shop import Shop
 from utils.custom_encoder import custom_serializer
@@ -44,7 +45,6 @@ def get_stores_within_boundary(
     ne, sw = (float(params["ne_lon"]), float(params["ne_lat"])), (float(params["sw_lon"]), float(params["sw_lat"]))
     # shops = Shop.objects(location__in=Location.objects(geometry__geo_within_box=[ne, sw]))
     shops = Shop.objects(location__geometry__geo_within_box=[ne, sw])
-    print(shops)
     shops_list = [shop.to_mongo().to_dict() for shop in shops]
     shops_json = json.dumps(shops_list, default=str)
 
@@ -55,6 +55,10 @@ def get_stores_within_boundary(
 def get_shops_text_search(request: Request):
     params = request.query_params
 
+@router.get("/get_shop/shop_id")
+def get_shop_given_id(shop_id, resolve_images):
+    shop = Shop.objects.get(id=shop_id)
+    return CustomSerializer.to_json(shop, resolve_images=bool(int(resolve_images)))
 
 
 

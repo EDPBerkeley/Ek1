@@ -10,14 +10,14 @@ router = APIRouter()
 @router.get("/store")
 def get_products_for_store(store_id):
 
-    return CustomSerializer.to_json(Shop.objects(pk=store_id).first().products)
+    return CustomSerializer.to_json(Shop.objects(pk=store_id).first().products, resolve_images=True)
 
 
 @router.get("/shop_field")
 def get_general_product_field_for_shop(shop_id, product_field):
 
     general_products = Shop.objects(pk=shop_id).first()[product_field]
-    general_products_json = CustomSerializer.to_json(general_products)
+    general_products_json = CustomSerializer.to_json(general_products, resolve_images=True)
     return general_products_json
 
 

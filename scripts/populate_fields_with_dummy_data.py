@@ -64,6 +64,17 @@ def main():
     shop_collection.update_many({}, {'$set': {'product_categories': []}})
     shop_collection.update_many({}, {'$set': {'sorted_products': {}}})
 
+    product_collection = Product._get_collection()
+    product_collection.update_many({}, {'$set': {''}})
+
+    # Product: {
+    #     "images": [
+    #         {
+    #             "element": ObjectID(),
+    #             "url": string
+    #         }
+    #     ]
+    # }
 
     for shop in Shop.objects.all():
 
