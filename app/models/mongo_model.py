@@ -1,5 +1,5 @@
 import bson.objectid
-from pydantic import BaseModel, BaseConfig, ValidationInfo
+from pydantic import BaseModel, ValidationInfo
 
 import datetime
 from bson.objectid import ObjectId

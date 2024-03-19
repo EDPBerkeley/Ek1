@@ -1,18 +1,13 @@
 import os
 import random
-from collections import Counter
 from collections import defaultdict
-
-
 from mongoengine import connect
+from geopy.geocoders import Nominatim
 
 from app.models.product import Product
 from app.models.user import User
-
-from geopy.geocoders import Nominatim
-
-from models.shop import Shop
-from models.transaction import Transaction
+from app.models.shop import Shop
+from app.models.transaction import Transaction
 
 
 class DBUtils():

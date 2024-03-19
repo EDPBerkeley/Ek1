@@ -1,7 +1,7 @@
 from mongoengine import *
 
 from app.models.product import Product
-from models.location import Location
+from app.models.location import Location
 
 
 class Shop(Document):

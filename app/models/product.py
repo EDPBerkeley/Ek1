@@ -1,9 +1,9 @@
 from mongoengine import *
-from models.one_image import OneImage
-from models.custom_serializer import CustomSerializer
+
+from app.models.one_image import OneImage
 
 
-class Product(Document, CustomSerializer):
+class Product(Document):
     name = StringField()
     description = StringField()
     price = DecimalField()
@@ -26,7 +26,4 @@ class Product(Document, CustomSerializer):
             }
         ]
     }
-
-    def to_json(self):
-        return CustomSerializer.to_json(self)
 

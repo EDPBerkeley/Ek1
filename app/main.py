@@ -2,9 +2,8 @@ import os
 
 from fastapi import FastAPI
 
-import uvicorn
 
-from routes import product_routes, product_data_routes, store_overview_data_routes, user_routes
+from app.routes import product_routes, product_data_routes, store_overview_data_routes, user_routes
 
 app = FastAPI()
 
@@ -12,7 +11,6 @@ from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 
 from app.routes import shop_routes
-
 from app.utils.db_utils import DBUtils
 
 global client

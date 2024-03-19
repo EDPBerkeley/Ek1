@@ -1,9 +1,9 @@
 from fastapi import APIRouter
-from app.models.shop import Shop
-import base64
 
-from models.custom_serializer import CustomSerializer
-from models.product import Product
+from app.models.shop import Shop
+from app.models.product import Product
+from app.models.custom_serializer import CustomSerializer
+
 
 router = APIRouter()
 
@@ -25,7 +25,12 @@ def get_general_product_field_for_shop(shop_id, product_field):
 @router.get("/text_search")
 def get_product_by_text_search(text_input):
     products = Product.objects.search_text(text_input).order_by('$text_score')
-    products[0].to_json()
+
+    # products2 = Product._get_collection().find(
+    #     {'$text': {'$search': "search term"}}).sort(
+    #     {'score': {'$meta': "textScore"}}
+    # )
+
     products_json = [CustomSerializer.to_json(product) for product in products]
     return products_json
 

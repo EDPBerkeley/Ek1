@@ -1,13 +1,13 @@
 import base64
 import random
-
-from fastapi import APIRouter, Request, Response
-from app.models.custom_serializer import CustomSerializer
-
-from app.models.shop import Shop
-from utils.custom_encoder import custom_serializer
-from utils.db_utils import DBUtils
 import json
+from fastapi import APIRouter, Request, Response
+
+from app.models.custom_serializer import CustomSerializer
+from app.models.shop import Shop
+from app.utils.custom_encoder import custom_serializer
+from app.utils.db_utils import DBUtils
+
 
 from models.location import Location
 
