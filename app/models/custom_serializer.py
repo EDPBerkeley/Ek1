@@ -38,7 +38,7 @@ class CustomSerializer:
                 for k, v in obj.items():
                     d[k] = serialize_general_object(v, mongoengine_obj[k])
                 return d
-            elif isinstance(obj, list):
+            elif isinstance(obj, list) or isinstance(obj, QuerySet):
                 with ThreadPoolExecutor() as executor:
                     results = list(executor.map(serialize_general_object, obj, mongoengine_obj))
                 return results

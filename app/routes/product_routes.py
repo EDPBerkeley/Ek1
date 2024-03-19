@@ -25,12 +25,6 @@ def get_general_product_field_for_shop(shop_id, product_field):
 @router.get("/text_search")
 def get_product_by_text_search(text_input):
     products = Product.objects.search_text(text_input).order_by('$text_score')
-
-    # products2 = Product._get_collection().find(
-    #     {'$text': {'$search': "search term"}}).sort(
-    #     {'score': {'$meta': "textScore"}}
-    # )
-
     products_json = [CustomSerializer.to_json(product) for product in products]
     return products_json
 
