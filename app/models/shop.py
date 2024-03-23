@@ -1,9 +1,7 @@
 from mongoengine import *
 
 from app.models.product import Product
-from app.models.payments_methods import PaymentMethods
-from models.category import Category
-from models.location import Location
+from app.models.location import Location
 
 
 class Shop(Document):
@@ -20,7 +18,7 @@ class Shop(Document):
     products = ListField(ReferenceField(Product))
     for_you_products = ListField(ReferenceField(Product))
     featured_products = ListField(ReferenceField(Product))
-    sorted_products = DictField()
+    sorted_products = DictField(value_field=ListField(ReferenceField(Product)))
     product_categories = ListField(StringField())
     payment_methods = ListField(IntField())
     website = StringField()
@@ -28,5 +26,4 @@ class Shop(Document):
     rating = DecimalField(precision=1)
     distance = DecimalField(precision=1)
     cost = IntField()
-
 

@@ -1,4 +1,3 @@
-
 class StringUtils:
     @staticmethod
     def to_camel_case(s):

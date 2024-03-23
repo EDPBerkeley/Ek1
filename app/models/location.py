@@ -1,4 +1,6 @@
 from mongoengine import *
+
+
 class Location(EmbeddedDocument):
     geometry = PointField()
     address = StringField()

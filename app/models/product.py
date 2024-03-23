@@ -1,12 +1,6 @@
-from dataclasses import Field
-
 from mongoengine import *
-from pydantic import BaseModel, Field
-from datetime import datetime
-from bson.objectid import ObjectId
 
-from models.mongo_model import MongoModel, OID
-from models.one_image import OneImage
+from app.models.one_image import OneImage
 
 
 class Product(Document):
@@ -19,15 +13,17 @@ class Product(Document):
     date_created = DateTimeField()
     images = EmbeddedDocumentListField(OneImage)
 
+    meta = {
+        'indexes': [
+            {
+                'fields': ['$name', "$description", "$category"],
+                'default_language': 'en',
+                'weights': {
+                    'name': 4,
+                    'description': 10,
+                    'category': 4
+                }
+            }
+        ]
+    }
 
-
-
-# class ProductJSONModel(MongoModel):
-#     id: OID=Field()
-#     name: str=Field()
-#     description: str=Field()
-#     price: float=Field()
-#     category: int=Field()
-#     sku: str=Field()
-#     quantity: int=Field()
-#     date_created: datetime=Field()

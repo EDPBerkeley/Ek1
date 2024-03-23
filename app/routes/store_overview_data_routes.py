@@ -1,13 +1,10 @@
 import random
+from fastapi import APIRouter, Request
 
-from fastapi import APIRouter, Request, Response
+from app.models.transaction import Transaction
+from app.utils.db_utils import DBUtils
+from app.models.custom_serializer import CustomSerializer
 
-from models.transaction import Transaction
-from utils.db_utils import DBUtils
-from utils.custom_encoder import custom_serializer
-
-
-import json
 
 router = APIRouter()
 
@@ -34,8 +31,6 @@ def overview_data(
         {"stat_name": "Highest Earning Product", "stat" : most_revenue_product["name"]},
     ]
 
-    stats_json = json.dumps(stats, cls=custom_serializer)
-
-    return Response(content=stats_json, media_type="application/json")
+    return CustomSerializer().to_json(stats)
 
 
