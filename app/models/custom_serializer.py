@@ -116,6 +116,6 @@ class CustomSerializer:
                     "element": base64.b64encode(img.element.thumbnail.read()).decode('utf-8')
                 }
             else:
-                return None
+                return "Unserialized Image"
 
         return serialize_general_object(obj=obj, mongoengine_obj=obj)
