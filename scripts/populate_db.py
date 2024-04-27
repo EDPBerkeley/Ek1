@@ -19,13 +19,16 @@ from app.models.category import Category
 from app.models.shop import Shop
 from app.models.transaction import Transaction
 from app.models.user import User
+from app.models.location import Location
+from app.utils.timeutils import TimeUtils
+from app.utils.db_utils import DBUtils as dbu
+from app.models.one_image import OneImage
+
 from PIL import Image
 import io
 
-from app.utils.timeutils import TimeUtils
-from app.utils.db_utils import DBUtils as dbu
-from models.location import Location
-from models.one_image import OneImage
+
+
 
 
 def load_data():
@@ -102,6 +105,58 @@ def create_images(product_name, shop_category):
     return images
 
 
+def create_shop_banner(shop_name):
+    directory = f"/Users/erchispatwardhan/PycharmProjects/fastApiProject/assets/shop_name_{shop_name}"
+    os.makedirs(directory, exist_ok=True)
+    images = []
+
+
+
+    time.sleep(12)
+
+    text_prompt = f"Design an inviting 16:9 banner (with no borders around the picture) for a store called {shop_name}.The banner should showcase the shop's items, clearly display {shop_name} and convey a sense of excitement to entice users to click and explore further."
+
+    try:
+        image_response = client.images.generate(
+            model="dall-e-3",
+            prompt=text_prompt,
+            size="1792x1024",
+            quality="standard",
+            n=1,
+            response_format="url",
+
+        )
+    except Exception as e:
+        print(e + " caused by " + text_prompt)
+
+    image_url = image_response.data[0].url
+
+    try:
+        response = requests.get(image_url)
+        if response.status_code == 200:
+            image = Image.open(io.BytesIO(response.content))
+            compressed_image_io = io.BytesIO()
+            image.save(compressed_image_io, 'JPEG', quality=85)
+            compressed_image_data = compressed_image_io.getvalue()
+            # Save Image
+            image_path = f"{directory}/{shop_name}.jpg"
+            with open(image_path, 'wb') as f:
+                f.write(compressed_image_data)
+
+
+            final_image=OneImage(
+                element=BytesIO(compressed_image_data),
+                url=image_url
+            )
+
+
+    except requests.RequestException as e:
+        print(f"Error downloading {image_url}: {e}")
+
+    return final_image
+
+
+
 def create_products(shop_num, num_products, shop_category, delete=False, log=True):
     if delete:
         Product.objects().delete()
@@ -126,8 +181,6 @@ def create_products(shop_num, num_products, shop_category, delete=False, log=Tru
             response_format={ "type": "json_object" }
         )
         product_details = json.loads(response.choices[0].message.content)
-
-
 
         try:
             product = Product(
@@ -179,6 +232,8 @@ def create_location(delete=False, log=False):
     return location
 
 
+
+
 def create_stores(delete=False, log=False):
     if delete:
         Shop.objects().delete()
@@ -209,9 +264,9 @@ def create_stores(delete=False, log=False):
         )
         shop_details = json.loads(response.choices[0].message.content)
 
-        for_you = create_products(shop_num=shop_num, num_products=8, shop_category=shop_category)
-        featured = create_products(shop_num=shop_num, num_products=8, shop_category=shop_category)
-        products = create_products(shop_num=shop_num, num_products=14, shop_category=shop_category)
+        for_you = []
+        featured = []
+        products = create_products(shop_num=shop_num, num_products=1, shop_category=shop_category)
 
         curr_shop = Shop(
             name= shop_details["name"],
@@ -222,15 +277,16 @@ def create_stores(delete=False, log=False):
             closing_time=random.randint(12, 23),
             category=shop_category,
             location=location,
-            for_you = for_you,
-            featured = featured,
+            for_you_products=for_you,
+            featured_products=featured,
             products=products,
             payment_methods=create_payment_methods(),
             website=shop_details["website"],
             phone_number=str(fake.numerify(text='###')) + '-' + str(fake.numerify(text='###')) + "-" + str(fake.numerify(text='####')),
             rating=format(round(random.uniform(0, 6), 1), ".1f"),
             distance=format(round(random.uniform(0, 6), 1), ".1f"),
-            cost=round(random.uniform(1, 3))
+            cost=round(random.uniform(1, 3)),
+            banner=create_shop_banner(shop_name=shop_details["name"])
         )
 
         shops.append(curr_shop)

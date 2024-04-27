@@ -2,6 +2,7 @@ from mongoengine import *
 
 from app.models.product import Product
 from app.models.location import Location
+from app.models.one_image import OneImage
 
 
 class Shop(Document):
@@ -26,4 +27,5 @@ class Shop(Document):
     rating = DecimalField(precision=1)
     distance = DecimalField(precision=1)
     cost = IntField()
+    banner = EmbeddedDocumentField(OneImage)
 
