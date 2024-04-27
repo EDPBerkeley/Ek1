@@ -26,5 +26,5 @@ def get_general_product_field_for_shop(shop_id, product_field):
 def get_product_by_text_search(text_input):
     products = Product.objects.search_text(text_input).order_by('$text_score')
     products_json = [CustomSerializer.to_json(product) for product in products]
-    return products_jsonf
+    return products_json
 

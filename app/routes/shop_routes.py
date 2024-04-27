@@ -7,6 +7,7 @@ from app.models.custom_serializer import CustomSerializer
 from app.models.shop import Shop
 from app.utils.custom_encoder import custom_serializer
 from app.utils.db_utils import DBUtils
+from models.product import Product
 
 router = APIRouter()
 
@@ -53,3 +54,12 @@ def get_shops_text_search(request: Request):
 def get_shop_given_id(shop_id, resolve_images):
     shop = Shop.objects.get(id=shop_id)
     return CustomSerializer.to_json(shop, resolve_images=bool(int(resolve_images)))
+
+
+@router.get("/get_shop/text_search")
+def get_shops_given_text_search(text_input):
+    products_list = Product.objects.search_text(text_input).order_by('$text_score')
+    shops = Shop.objects(products__in=products_list)
+    return CustomSerializer.to_json(shops, resolve_images=False)
+
+

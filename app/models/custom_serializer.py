@@ -110,10 +110,10 @@ class CustomSerializer:
 
         def serialize_image(img: OneImage):
             if resolve_images is True:
-                img.element.thumbnail.seek(0)
+                img.element.seek(0)
                 return {
                     "url": img["url"],
-                    "element": base64.b64encode(img.element.thumbnail.read()).decode('utf-8')
+                    "element": base64.b64encode(img.element.read()).decode('utf-8')
                 }
             else:
                 return "Unserialized Image"
