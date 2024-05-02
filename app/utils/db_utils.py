@@ -1,16 +1,17 @@
 import os
 import random
 from collections import defaultdict
+
+from geopy import Nominatim
 from mongoengine import connect
-from geopy.geocoders import Nominatim
 
-from app.models.product import Product
-from app.models.user import User
-from app.models.shop import Shop
-from app.models.transaction import Transaction
+from models.product import Product
+from models.shop import Shop
+from models.transaction import Transaction
+from models.user import User
 
 
-class DBUtils():
+class DBUtils:
 
     @staticmethod
     def initiate_connection():
@@ -25,7 +26,7 @@ class DBUtils():
         num_users = User.objects.count()
 
         # Generate 5 unique random indices
-        random_index= random.sample(range(num_users), 1)[0]
+        random_index = random.sample(range(num_users), 1)[0]
 
         # Fetch the documents at the random indices
         random_user_list = User.objects.filter().skip(random_index).limit(1)
@@ -81,7 +82,7 @@ class DBUtils():
 
     @staticmethod
     def switch_longitude_latitude(coords):
-        return[coords[1], coords[0]]
+        return [coords[1], coords[0]]
 
     @staticmethod
     def generate_random_address_berkeley(coords=None):
@@ -106,7 +107,6 @@ class DBUtils():
         if transactions is None:
             transactions = Transaction.objects(shop=shop_id)
 
-
         product_id_counts = defaultdict(lambda: 0)
         for transaction in transactions:
             product_id_counts[transaction.product.id] += transaction.quantity
@@ -121,7 +121,6 @@ class DBUtils():
         if transactions is None:
             transactions = Transaction.objects(shop=shop_id)
 
-        product_ids = [transaction.product.id for transaction in transactions]
         product_id_revenues = defaultdict(lambda: 0)
 
         for transaction in transactions:
@@ -141,8 +140,6 @@ class DBUtils():
             total_revenue += (transaction.product.price * transaction.quantity)
 
         return total_revenue
-
-
 
     @staticmethod
     def get_product(product_id):

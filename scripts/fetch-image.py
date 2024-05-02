@@ -1,7 +1,7 @@
 import os
+from utils.db_utils import DBUtils as dbu
+from utils.string_utils import StringUtils as su
 
-from app.utils.db_utils import DBUtils as dbu
-from app.utils.string_utils import StringUtils as su
 
 
 def main():

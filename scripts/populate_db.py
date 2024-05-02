@@ -1,34 +1,29 @@
+import io
 import json
 import os
 import random
 import secrets
 import string
-import os
 import time
 from io import BytesIO
 
 import requests
-from openai import OpenAI
+from PIL import Image
 from faker import Faker
 
-from mongoengine import *
+from openai import OpenAI
 
 from app.models.payments_methods import PaymentMethods
 from app.models.product import Product
-from app.models.category import Category
 from app.models.shop import Shop
 from app.models.transaction import Transaction
 from app.models.user import User
-from app.models.location import Location
+
+
 from app.utils.timeutils import TimeUtils
 from app.utils.db_utils import DBUtils as dbu
-from app.models.one_image import OneImage
-
-from PIL import Image
-import io
-
-
-
+from models.location import Location
+from models.one_image import OneImage
 
 
 def load_data():

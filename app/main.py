@@ -2,16 +2,13 @@ import os
 
 from fastapi import FastAPI
 
-
-from app.routes import product_routes, product_data_routes, store_overview_data_routes, user_routes
+from routes import shop_routes, product_routes, store_overview_data_routes, user_routes
+from utils.db_utils import DBUtils
 
 app = FastAPI()
 
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
-
-from app.routes import shop_routes
-from app.utils.db_utils import DBUtils
 
 global client
 global x1
@@ -34,12 +31,7 @@ async def say_hello(name: str):
 
 app.include_router(shop_routes.router, prefix="/store", tags=["store"])
 app.include_router(product_routes.router, prefix="/product", tags=["product"])
-app.include_router(product_data_routes.router, prefix="/product_data", tags=["product_data"])
 app.include_router(store_overview_data_routes.router, prefix="/store_overview_data", tags=["store_overview_data"])
 app.include_router(user_routes.router, prefix="/user", tags=["user"])
 
-
 DBUtils.initiate_connection()
-# if __name__ == 'main':
-#     uvicorn.run("app:main", host="0.0.0.0", port=8000)
-# store_routes.get_stores_within_boundary(( -122.27300, 37.87150), (-122.24174, 37.90564))

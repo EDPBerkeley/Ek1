@@ -5,9 +5,9 @@ from collections import defaultdict
 from concurrent.futures import ThreadPoolExecutor
 from mongoengine import *
 
-from app.models.one_image import OneImage
-from app.models.shop import Shop
-from app.models.product import Product
+from models.one_image import OneImage
+from models.product import Product
+from models.shop import Shop
 
 
 class CustomSerializer:
