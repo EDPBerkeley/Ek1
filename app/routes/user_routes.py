@@ -1,11 +1,15 @@
 import json
-from fastapi import APIRouter, Response
 
-from app.utils.custom_encoder import custom_serializer
-from app.utils.db_utils import DBUtils
-from app.models.custom_serializer import CustomSerializer
+from fastapi import APIRouter
+from fastapi.openapi.models import Response
+
+from models.custom_serializer import CustomSerializer
+from utils.custom_encoder import custom_serializer
+
+from utils.db_utils import DBUtils
 
 router = APIRouter()
+
 
 @router.get("/random_user")
 def get_random_user():

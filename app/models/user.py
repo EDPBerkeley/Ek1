@@ -1,7 +1,7 @@
 from mongoengine import *
 
-from app.models.product import Product
-from app.models.shop import Shop
+from models.product import Product
+from models.shop import Shop
 
 
 class User(Document):
@@ -13,6 +13,3 @@ class User(Document):
     date_created = DateTimeField()
     cart = ListField(ReferenceField(Product))
     previously_bought = ListField(ReferenceField(Product))
-
-
-

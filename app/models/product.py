@@ -1,6 +1,6 @@
 from mongoengine import *
 
-from app.models.one_image import OneImage
+from models.one_image import OneImage
 
 
 class Product(Document):

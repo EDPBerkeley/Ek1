@@ -1,12 +1,13 @@
 import random
+
 from fastapi import APIRouter, Request
 
-from app.models.transaction import Transaction
-from app.utils.db_utils import DBUtils
-from app.models.custom_serializer import CustomSerializer
-
+from models.custom_serializer import CustomSerializer
+from models.transaction import Transaction
+from utils.db_utils import DBUtils
 
 router = APIRouter()
+
 
 @router.get("/data")
 def overview_data(
@@ -22,15 +23,12 @@ def overview_data(
 
     total_revenue = DBUtils.total_revenue(transactions=transactions)
 
-
     stats = [
         {"stat_name": "Total Revenue (Past 30 Days)", "stat": "$" + str(total_revenue)},
         {"stat_name": "Conversion Rate", "stat": str(random.randint(50, 100)) + "%"},
         {"stat_name": "Customer Satisfaction", "stat": str(random.randint(50, 100)) + "%"},
-        {"stat_name": "Most Transacted Product", "stat" : most_transacted_product["name"]},
-        {"stat_name": "Highest Earning Product", "stat" : most_revenue_product["name"]},
+        {"stat_name": "Most Transacted Product", "stat": most_transacted_product["name"]},
+        {"stat_name": "Highest Earning Product", "stat": most_revenue_product["name"]},
     ]
 
     return CustomSerializer().to_json(stats)
-
-

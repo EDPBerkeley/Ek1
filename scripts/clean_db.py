@@ -1,10 +1,10 @@
-from app.models.product import Product
-from app.models.shop import Shop
-from app.models.transaction import Transaction
-from app.models.user import User
+from utils.db_utils import DBUtils as dbu
 
-from app.utils.db_utils import DBUtils as dbu
-from models.location import Location
+
+from models.product import Product
+from models.shop import Shop
+from models.transaction import Transaction
+from models.user import User
 
 
 def clean_db():

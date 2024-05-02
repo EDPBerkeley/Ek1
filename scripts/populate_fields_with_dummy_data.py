@@ -1,11 +1,11 @@
 import copy
 import random
-import base64
 from collections import defaultdict
 
-from app.utils.db_utils import DBUtils as dbu
-from models.shop import Shop
+import dbu
+
 from models.product import Product
+from models.shop import Shop
 
 """
     This script is meant to populate the sorted products dictionary with real data, for_you products array with

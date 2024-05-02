@@ -1,8 +1,8 @@
 from mongoengine import *
 
-from app.models.product import Product
-from app.models.user import User
-from app.models.shop import Shop
+from models.product import Product
+from models.shop import Shop
+from models.user import User
 
 
 class Transaction(Document):
