@@ -75,6 +75,7 @@ class CustomSerializer:
                 delattr(copied_obj, 'for_you_products')
                 delattr(copied_obj, 'featured_products')
                 delattr(copied_obj, 'sorted_products')
+                copied_obj["banner"] = serialize_image(copied_obj["banner"], resolve_images_locally=True)
                 return copied_obj
 
             def post_process_shop(shop_dict: dict) -> dict:
@@ -108,8 +109,8 @@ class CustomSerializer:
             post_processed_serialized_obj = post_process_shop(shop_dict=serialized_obj)
             return post_processed_serialized_obj
 
-        def serialize_image(img: OneImage):
-            if resolve_images is True:
+        def serialize_image(img: OneImage, resolve_images_locally=False):
+            if resolve_images is True or resolve_images_locally is True:
                 img.element.seek(0)
                 return {
                     "url": img["url"],

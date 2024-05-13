@@ -13,17 +13,18 @@ from faker import Faker
 
 from openai import OpenAI
 
-from app.models.payments_methods import PaymentMethods
-from app.models.product import Product
-from app.models.shop import Shop
-from app.models.transaction import Transaction
-from app.models.user import User
+
 
 
 from app.utils.timeutils import TimeUtils
 from app.utils.db_utils import DBUtils as dbu
 from models.location import Location
 from models.one_image import OneImage
+from models.payments_methods import PaymentMethods
+from models.product import Product
+from models.shop import Shop
+from models.transaction import Transaction
+from models.user import User
 
 
 def load_data():
@@ -42,20 +43,9 @@ def create_images(product_name, shop_category):
     os.makedirs(directory, exist_ok=True)
     images = []
 
-    for j in range(2):
+    for j in range(1):
 
         time.sleep(12)
-
-        # prompt = f"I need a prompt that is less than 1000 in length to give dalle - I want to generate an image of {product_name} that is only a simple near-white background as if it were taken in a photography studio. I want this image to be used in a advertising catalogue, and I want the whole object in frame. Please respond with just the prompt"
-
-        # text_response = client.chat.completions.create(
-        #     model="gpt-3.5-turbo",
-        #     messages=[
-        #         {"role": "user", "content": prompt},
-        #     ]
-        # )
-
-        # text_prompt = text_response.choices[0].message.content
 
         text_prompt =  f"I need a well-shot and edited studio-like photo of a single {product_name} taking into consideration the fact that it in an instance of {shop_category} shot on a white background that would be used in an advertising catalogue to showcase the product and can you make sure that the entire product is visible in the frame of the picture?"
 
@@ -261,7 +251,7 @@ def create_stores(delete=False, log=False):
 
         for_you = []
         featured = []
-        products = create_products(shop_num=shop_num, num_products=1, shop_category=shop_category)
+        products = create_products(shop_num=shop_num, num_products=20, shop_category=shop_category)
 
         curr_shop = Shop(
             name= shop_details["name"],
@@ -288,8 +278,7 @@ def create_stores(delete=False, log=False):
 
         try:
             curr_shop.save()
-            if log:
-                print(f"Shop {curr_shop.id} was saved to db")
+            print(f"Shop {curr_shop.id} was saved to db")
         except Exception as e:
             print(e)
 
@@ -302,7 +291,7 @@ def create_user(delete=False, log=False):
 
     fake = Faker()
 
-    for i in range(10):
+    for i in range(8):
 
         stores = create_stores()
         user = User(
@@ -352,23 +341,3 @@ client = OpenAI()
 load_data()
 create_user()
 create_transaction(log=False)
-
-
-
-
-
-
-
-# Example usage
-# First, create and save a Location instance
-# dbu.initiate_connection()
-# def create():
-#
-#     location = Location(coordinates={'type': 'Point', 'coordinates': [-73.935242, 40.730610]})
-#     location.save()
-#     return location
-#
-# t = create()
-# # Now, create and save a Place instance that references the Location
-# store = Store(name="Central Park", location=t)
-# store.save()
